@@ -1,4 +1,4 @@
-export const BASE_URL = "";
+export const BASE_URL = "https://taskerz-server.vercel.app";
 
 export const API_PATHS = {
     AUTH: {
