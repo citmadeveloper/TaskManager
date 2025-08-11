@@ -13,14 +13,14 @@ router.put("/profile", protect, updateUserProfile);
 
 
 router.post("/upload-image", upload.single("image"), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ message: "No file uploaded" });
+    if (!req.file || !req.file.path) {
+        return res.status(400).json({ message: "Image upload failed" });
     }
-
-    const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+    const imageUrl = req.file.path;
 
     res.status(200).json({ imageUrl });
 });
+
 
 export default router;
 

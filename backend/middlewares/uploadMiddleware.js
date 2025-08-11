@@ -1,16 +1,18 @@
 import multer from "multer";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import cloudinary from "../config/cloudinary.js";
 
-// Configure storage
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "uploads/");
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
+// Cloudinary Storage Config
+const storage = new CloudinaryStorage({
+    cloudinary,
+    params: {
+        folder: 'taskerz_images', // You can rename this folder
+        allowed_formats: ['jpg', 'jpeg', 'png'],
+        public_id: (req, file) => `${Date.now()}-${file.originalname}`,
     },
 });
 
-// Filter allowed file types
+// Filter allowed file types (optional – already handled above)
 const fileFilter = (req, file, cb) => {
     const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     if (allowedTypes.includes(file.mimetype)) {
